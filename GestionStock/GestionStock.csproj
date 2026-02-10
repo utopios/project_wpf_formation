@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net9.0-windows</TargetFramework>
+        <UseWPF>true</UseWPF>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <RootNamespace>GestionStock</RootNamespace>
+        <AssemblyName>GestionStock</AssemblyName>
+         <!--<ApplicationIcon>Resources\app.ico</ApplicationIcon>--> 
+        <Version>1.0.0</Version>
+        <Authors>Formation WPF</Authors>
+        <Description>Application de gestion de stock - Projet de formation WPF/MVVM</Description>
+    </PropertyGroup>
+
+    <!-- Packages NuGet -->
+    <ItemGroup>
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
+
+    <!-- Analyseurs de code -->
+    <ItemGroup>
+        <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="9.0.0">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
+
+    <!-- Ressources -->
+    <ItemGroup>
+        <None Remove="Resources\**\*.png" />
+        <Resource Include="Resources\**\*.png" />
+    </ItemGroup>
+
+</Project>

@@ -1,0 +1,186 @@
+<UserControl x:Class="GestionStock.Views.DashboardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <TextBlock Text="Tableau de bord" Style="{StaticResource PageTitle}"/>
+
+        <!-- KPI Cards -->
+        <UniformGrid Grid.Row="1" Columns="4" Margin="0,0,0,24">
+            <!-- Total Products -->
+            <Border Style="{StaticResource Card}" Margin="0,0,12,0">
+                <StackPanel>
+                    <TextBlock Text="Total Produits" Style="{StaticResource Caption}"/>
+                    <TextBlock Text="{Binding TotalProducts}" FontSize="32" FontWeight="Light"
+                               Foreground="{StaticResource PrimaryBrush}"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Low Stock -->
+            <Border Style="{StaticResource Card}" Margin="6,0">
+                <StackPanel>
+                    <TextBlock Text="Stock faible" Style="{StaticResource Caption}"/>
+                    <TextBlock Text="{Binding LowStockCount}" FontSize="32" FontWeight="Light"
+                               Foreground="{StaticResource WarningBrush}"/>
+                    <Button Content="Voir détails" Style="{StaticResource SecondaryButton}"
+                            Command="{Binding ViewLowStockCommand}" Margin="0,8,0,0"
+                            Padding="8,4" FontSize="12"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Out of Stock -->
+            <Border Style="{StaticResource Card}" Margin="6,0">
+                <StackPanel>
+                    <TextBlock Text="Rupture de stock" Style="{StaticResource Caption}"/>
+                    <TextBlock Text="{Binding OutOfStockCount}" FontSize="32" FontWeight="Light"
+                               Foreground="{StaticResource ErrorBrush}"/>
+                    <Button Content="Voir détails" Style="{StaticResource SecondaryButton}"
+                            Command="{Binding ViewOutOfStockCommand}" Margin="0,8,0,0"
+                            Padding="8,4" FontSize="12"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Total Value -->
+            <Border Style="{StaticResource Card}" Margin="12,0,0,0">
+                <StackPanel>
+                    <TextBlock Text="Valeur totale du stock" Style="{StaticResource Caption}"/>
+                    <TextBlock Text="{Binding TotalStockValue, Converter={StaticResource Currency}}"
+                               FontSize="32" FontWeight="Light"
+                               Foreground="{StaticResource SuccessBrush}"/>
+                </StackPanel>
+            </Border>
+        </UniformGrid>
+
+        <!-- Content -->
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Low Stock Products -->
+            <Border Style="{StaticResource Card}" Margin="0,0,12,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="Produits à réapprovisionner" Style="{StaticResource SectionTitle}"/>
+
+                    <ListBox Grid.Row="1" ItemsSource="{Binding LowStockProducts}"
+                             BorderThickness="0" Background="Transparent">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0,8">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Name}" FontWeight="SemiBold"/>
+                                        <TextBlock Text="{Binding Code}" Style="{StaticResource Caption}"/>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="1" HorizontalAlignment="Right" Margin="12,0">
+                                        <TextBlock Text="{Binding QuantityInStock, StringFormat='{}{0} unités'}"
+                                                   Foreground="{Binding Converter={StaticResource StockStatusColor}}"/>
+                                        <TextBlock Text="{Binding MinimumStock, StringFormat='Min: {0}'}"
+                                                   Style="{StaticResource Caption}"/>
+                                    </StackPanel>
+
+                                    <Button Grid.Column="2" Content="📋"
+                                            Command="{Binding DataContext.ViewProductCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            CommandParameter="{Binding}"
+                                            Background="Transparent" BorderThickness="0"
+                                            Cursor="Hand" ToolTip="Voir détails"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
+            </Border>
+
+            <!-- Recent Movements -->
+            <Border Grid.Column="1" Style="{StaticResource Card}" Margin="12,0,0,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="Derniers mouvements" Style="{StaticResource SectionTitle}"/>
+
+                    <ListBox Grid.Row="1" ItemsSource="{Binding RecentMovements}"
+                             BorderThickness="0" Background="Transparent">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0,8">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- Type indicator -->
+                                    <Border Width="4" CornerRadius="2" Margin="0,0,12,0">
+                                        <Border.Style>
+                                            <Style TargetType="Border">
+                                                <Setter Property="Background" Value="{StaticResource InfoBrush}"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Type}" Value="StockIn">
+                                                        <Setter Property="Background" Value="{StaticResource SuccessBrush}"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Type}" Value="StockOut">
+                                                        <Setter Property="Background" Value="{StaticResource ErrorBrush}"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Border.Style>
+                                    </Border>
+
+                                    <StackPanel Grid.Column="1">
+                                        <TextBlock Text="{Binding Product.Name}" FontWeight="SemiBold"/>
+                                        <TextBlock Style="{StaticResource Caption}">
+                                            <Run Text="{Binding Type, Converter={StaticResource MovementType}}"/>
+                                            <Run Text=" - "/>
+                                            <Run Text="{Binding Quantity}"/>
+                                            <Run Text=" unités"/>
+                                        </TextBlock>
+                                    </StackPanel>
+
+                                    <TextBlock Grid.Column="2"
+                                               Text="{Binding CreatedAt, StringFormat='{}{0:dd/MM HH:mm}'}"
+                                               Style="{StaticResource Caption}"
+                                               VerticalAlignment="Center"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- Loading Overlay -->
+        <Border Grid.RowSpan="3" Background="#80FFFFFF"
+                Visibility="{Binding IsBusy, Converter={StaticResource BoolToVis}}">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <ProgressBar IsIndeterminate="True" Width="200" Height="4"/>
+                <TextBlock Text="Chargement..." Margin="0,12,0,0"
+                           HorizontalAlignment="Center" Style="{StaticResource Caption}"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>
