@@ -116,6 +116,9 @@ public partial class PersonViewModel : ObservableObject
         for (int i = 1; i <= 5; i++)
         {
             cancellationToken.ThrowIfCancellationRequested();
+            await Task.Run(() => { 
+            //Logique
+            });
             await Task.Delay(500, cancellationToken);
             Message = $"Étape {i}/5 terminée...";
         }
