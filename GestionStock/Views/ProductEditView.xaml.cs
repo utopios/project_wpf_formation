@@ -24,10 +24,10 @@ public partial class ProductEditView : Window
         DialogResult = result;
     }
     
-    ~ProductEditView()
-    {
-        ((ProductEditFormViewModel)DataContext).CloseRequested -= Close;
-    }
+    //~ProductEditView()
+    //{
+    //    ((ProductEditFormViewModel)DataContext).CloseRequested -= Close;
+    //}
 
     
 }

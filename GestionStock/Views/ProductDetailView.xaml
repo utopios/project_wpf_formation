@@ -3,6 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewmodels="clr-namespace:GestionStock.ViewModels"
+        d:DataContext="{d:DesignInstance Type=viewmodels:ProductInfoViewModel}"
         mc:Ignorable="d"
         Title="Détails du produit"
         Height="600"
@@ -25,19 +27,20 @@
             </Grid.ColumnDefinitions>
 
             <StackPanel>
-                <TextBlock x:Name="ProductNameText"
+                <TextBlock Text="{Binding ProductName}"
                            Style="{StaticResource PageTitle}"
                            Margin="0,0,0,4"/>
-                <TextBlock x:Name="ProductCodeText"
+                <TextBlock Text="{Binding ProductCode}"
                            Style="{StaticResource Caption}"/>
             </StackPanel>
 
+            <!-- Badge de statut avec Converter string -> Brush -->
             <Border Grid.Column="1"
-                    x:Name="StatusBadge"
+                    Background="{Binding StockStatusColor, Converter={StaticResource StringToBrush}}"
                     CornerRadius="10"
                     Padding="12,4"
                     VerticalAlignment="Top">
-                <TextBlock x:Name="StatusText"
+                <TextBlock Text="{Binding StockStatusText}"
                            Foreground="White"
                            FontSize="12"
                            FontWeight="SemiBold"/>
@@ -70,7 +73,7 @@
                                 <TextBlock Text="Catégorie"
                                            Style="{StaticResource Caption}"
                                            Margin="0,0,0,4"/>
-                                <TextBlock x:Name="CategoryText"
+                                <TextBlock Text="{Binding CategoryName}"
                                            Style="{StaticResource Body}"/>
                             </StackPanel>
 
@@ -79,7 +82,7 @@
                                 <TextBlock Text="Fournisseur"
                                            Style="{StaticResource Caption}"
                                            Margin="0,0,0,4"/>
-                                <TextBlock x:Name="SupplierText"
+                                <TextBlock Text="{Binding SupplierName}"
                                            Style="{StaticResource Body}"/>
                             </StackPanel>
 
@@ -88,7 +91,7 @@
                                 <TextBlock Text="Prix unitaire"
                                            Style="{StaticResource Caption}"
                                            Margin="0,0,0,4"/>
-                                <TextBlock x:Name="PriceText"
+                                <TextBlock Text="{Binding PriceDisplay}"
                                            Style="{StaticResource Body}"
                                            FontWeight="SemiBold"
                                            Foreground="{StaticResource PrimaryBrush}"/>
@@ -99,7 +102,7 @@
                                 <TextBlock Text="Quantité en stock"
                                            Style="{StaticResource Caption}"
                                            Margin="0,0,0,4"/>
-                                <TextBlock x:Name="QuantityText"
+                                <TextBlock Text="{Binding QuantityInStock}"
                                            Style="{StaticResource Body}"
                                            FontWeight="SemiBold"/>
                             </StackPanel>
@@ -109,7 +112,7 @@
                                 <TextBlock Text="Stock minimum"
                                            Style="{StaticResource Caption}"
                                            Margin="0,0,0,4"/>
-                                <TextBlock x:Name="MinStockText"
+                                <TextBlock Text="{Binding MinimumStock}"
                                            Style="{StaticResource Body}"/>
                             </StackPanel>
 
@@ -118,7 +121,7 @@
                                 <TextBlock Text="Valeur totale"
                                            Style="{StaticResource Caption}"
                                            Margin="0,0,0,4"/>
-                                <TextBlock x:Name="TotalValueText"
+                                <TextBlock Text="{Binding TotalValueDisplay}"
                                            Style="{StaticResource Body}"
                                            FontWeight="SemiBold"
                                            Foreground="{StaticResource SuccessBrush}"/>
@@ -129,7 +132,7 @@
                                 <TextBlock Text="Statut"
                                            Style="{StaticResource Caption}"
                                            Margin="0,0,0,4"/>
-                                <TextBlock x:Name="ActiveText"
+                                <TextBlock Text="{Binding ActiveStatus}"
                                            Style="{StaticResource Body}"/>
                             </StackPanel>
                         </Grid>
@@ -141,7 +144,7 @@
                     <StackPanel>
                         <TextBlock Text="Description"
                                    Style="{StaticResource SectionTitle}"/>
-                        <TextBlock x:Name="DescriptionText"
+                        <TextBlock Text="{Binding Description}"
                                    TextWrapping="Wrap"
                                    Style="{StaticResource Body}"/>
                     </StackPanel>
@@ -164,7 +167,7 @@
                                 <TextBlock Text="Date de création"
                                            Style="{StaticResource Caption}"
                                            Margin="0,0,0,4"/>
-                                <TextBlock x:Name="CreatedAtText"
+                                <TextBlock Text="{Binding CreatedAtDisplay}"
                                            Style="{StaticResource Body}"/>
                             </StackPanel>
 
@@ -173,7 +176,7 @@
                                 <TextBlock Text="Dernière modification"
                                            Style="{StaticResource Caption}"
                                            Margin="0,0,0,4"/>
-                                <TextBlock x:Name="UpdatedAtText"
+                                <TextBlock Text="{Binding UpdatedAtDisplay}"
                                            Style="{StaticResource Body}"/>
                             </StackPanel>
                         </Grid>
@@ -189,14 +192,12 @@
                 BorderBrush="{StaticResource BorderBrush}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Content="Modifier"
-                        x:Name="EditButton"
                         Style="{StaticResource PrimaryButton}"
                         Margin="0,0,12,0"
-                        Click="EditButton_Click"/>
+                        Command="{Binding EditCommand}"/>
                 <Button Content="Fermer"
-                        x:Name="CloseButton"
                         Style="{StaticResource SecondaryButton}"
-                        Click="CloseButton_Click"/>
+                        Command="{Binding CloseWindowCommand}"/>
             </StackPanel>
         </Border>
     </Grid>
