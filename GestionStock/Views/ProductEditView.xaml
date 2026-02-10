@@ -2,13 +2,17 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:viewmodels="clr-namespace:GestionStock.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:ProductEditFormViewModel}"
         mc:Ignorable="d"
-        Title="Édition de produit"
+        Title="{Binding Title}"
         Height="700"
         Width="600"
         WindowStartupLocation="CenterScreen"
         Background="{StaticResource BackgroundBrush}">
+
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </Window.Resources>
 
     <Grid Margin="24">
         <Grid.RowDefinitions>
@@ -18,8 +22,7 @@
         </Grid.RowDefinitions>
 
         <!-- Header -->
-        <TextBlock x:Name="TitleText"
-                   Text="Nouveau produit"
+        <TextBlock Text="{Binding Title}"
                    Style="{StaticResource PageTitle}"/>
 
         <!-- Form Content -->
@@ -31,13 +34,13 @@
                         <TextBlock Text="Code produit *"
                                    Style="{StaticResource Caption}"
                                    Margin="0,0,0,4"/>
-                        <TextBox x:Name="CodeTextBox"
+                        <TextBox Text="{Binding Code, UpdateSourceTrigger=PropertyChanged}"
                                  MaxLength="20"/>
-                        <TextBlock x:Name="CodeErrorText"
+                        <TextBlock Text="{Binding CodeError}"
                                    Foreground="{StaticResource ErrorBrush}"
                                    FontSize="11"
                                    Margin="0,4,0,0"
-                                   Visibility="Collapsed"/>
+                                   Visibility="{Binding CodeError, Converter={StaticResource NullToVis}}"/>
                     </StackPanel>
 
                     <!-- Nom -->
@@ -45,13 +48,13 @@
                         <TextBlock Text="Nom du produit *"
                                    Style="{StaticResource Caption}"
                                    Margin="0,0,0,4"/>
-                        <TextBox x:Name="NameTextBox"
+                        <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
                                  MaxLength="100"/>
-                        <TextBlock x:Name="NameErrorText"
+                        <TextBlock Text="{Binding NameError}"
                                    Foreground="{StaticResource ErrorBrush}"
                                    FontSize="11"
                                    Margin="0,4,0,0"
-                                   Visibility="Collapsed"/>
+                                   Visibility="{Binding NameError, Converter={StaticResource NullToVis}}"/>
                     </StackPanel>
 
                     <!-- Description -->
@@ -59,7 +62,7 @@
                         <TextBlock Text="Description"
                                    Style="{StaticResource Caption}"
                                    Margin="0,0,0,4"/>
-                        <TextBox x:Name="DescriptionTextBox"
+                        <TextBox Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"
                                  Height="80"
                                  TextWrapping="Wrap"
                                  AcceptsReturn="True"
@@ -80,14 +83,14 @@
                             <TextBlock Text="Catégorie *"
                                        Style="{StaticResource Caption}"
                                        Margin="0,0,0,4"/>
-                            <ComboBox x:Name="CategoryComboBox"
-                                      DisplayMemberPath="Name"
-                                      SelectedValuePath="Id"/>
-                            <TextBlock x:Name="CategoryErrorText"
+                            <ComboBox ItemsSource="{Binding Categories}"
+                                      SelectedItem="{Binding SelectedCategory}"
+                                      DisplayMemberPath="Name"/>
+                            <TextBlock Text="{Binding CategoryError}"
                                        Foreground="{StaticResource ErrorBrush}"
                                        FontSize="11"
                                        Margin="0,4,0,0"
-                                       Visibility="Collapsed"/>
+                                       Visibility="{Binding CategoryError, Converter={StaticResource NullToVis}}"/>
                         </StackPanel>
 
                         <!-- Fournisseur -->
@@ -95,9 +98,9 @@
                             <TextBlock Text="Fournisseur"
                                        Style="{StaticResource Caption}"
                                        Margin="0,0,0,4"/>
-                            <ComboBox x:Name="SupplierComboBox"
-                                      DisplayMemberPath="Name"
-                                      SelectedValuePath="Id"/>
+                            <ComboBox ItemsSource="{Binding Suppliers}"
+                                      SelectedItem="{Binding SelectedSupplier}"
+                                      DisplayMemberPath="Name"/>
                         </StackPanel>
                     </Grid>
 
@@ -114,12 +117,12 @@
                             <TextBlock Text="Prix unitaire (€) *"
                                        Style="{StaticResource Caption}"
                                        Margin="0,0,0,4"/>
-                            <TextBox x:Name="PriceTextBox"/>
-                            <TextBlock x:Name="PriceErrorText"
+                            <TextBox Text="{Binding UnitPrice, UpdateSourceTrigger=PropertyChanged}"/>
+                            <TextBlock Text="{Binding PriceError}"
                                        Foreground="{StaticResource ErrorBrush}"
                                        FontSize="11"
                                        Margin="0,4,0,0"
-                                       Visibility="Collapsed"/>
+                                       Visibility="{Binding PriceError, Converter={StaticResource NullToVis}}"/>
                         </StackPanel>
 
                         <!-- Quantité en stock -->
@@ -127,12 +130,12 @@
                             <TextBlock Text="Quantité en stock *"
                                        Style="{StaticResource Caption}"
                                        Margin="0,0,0,4"/>
-                            <TextBox x:Name="QuantityTextBox"/>
-                            <TextBlock x:Name="QuantityErrorText"
+                            <TextBox Text="{Binding QuantityInStock, UpdateSourceTrigger=PropertyChanged}"/>
+                            <TextBlock Text="{Binding QuantityError}"
                                        Foreground="{StaticResource ErrorBrush}"
                                        FontSize="11"
                                        Margin="0,4,0,0"
-                                       Visibility="Collapsed"/>
+                                       Visibility="{Binding QuantityError, Converter={StaticResource NullToVis}}"/>
                         </StackPanel>
                     </Grid>
 
@@ -141,20 +144,14 @@
                         <TextBlock Text="Stock minimum"
                                    Style="{StaticResource Caption}"
                                    Margin="0,0,0,4"/>
-                        <TextBox x:Name="MinStockTextBox"
+                        <TextBox Text="{Binding MinimumStock, UpdateSourceTrigger=PropertyChanged}"
                                  Width="200"
                                  HorizontalAlignment="Left"/>
-                        <TextBlock x:Name="MinStockErrorText"
-                                   Foreground="{StaticResource ErrorBrush}"
-                                   FontSize="11"
-                                   Margin="0,4,0,0"
-                                   Visibility="Collapsed"/>
                     </StackPanel>
 
                     <!-- Produit actif -->
-                    <CheckBox x:Name="IsActiveCheckBox"
-                              Content="Produit actif"
-                              IsChecked="True"/>
+                    <CheckBox Content="Produit actif"
+                              IsChecked="{Binding IsActive}"/>
                 </StackPanel>
             </Border>
         </ScrollViewer>
@@ -166,22 +163,19 @@
                 BorderBrush="{StaticResource BorderBrush}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Content="Enregistrer"
-                        x:Name="SaveButton"
                         Style="{StaticResource PrimaryButton}"
                         Margin="0,0,12,0"
-                        Click="SaveButton_Click"/>
+                        Command="{Binding SaveCommand}"/>
                 <Button Content="Annuler"
-                        x:Name="CancelButton"
                         Style="{StaticResource SecondaryButton}"
-                        Click="CancelButton_Click"/>
+                        Command="{Binding CancelCommand}"/>
             </StackPanel>
         </Border>
 
         <!-- Loading Overlay -->
         <Border Grid.RowSpan="3"
-                x:Name="LoadingOverlay"
                 Background="#80FFFFFF"
-                Visibility="Collapsed">
+                Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                 <ProgressBar IsIndeterminate="True" Width="200" Height="4"/>
                 <TextBlock Text="Chargement..."
