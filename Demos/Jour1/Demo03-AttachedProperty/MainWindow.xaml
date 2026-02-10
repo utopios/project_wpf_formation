@@ -1,0 +1,243 @@
+<Window x:Class="AttachedPropertyDemo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:AttachedPropertyDemo"
+        Title="Demo - Attached Properties"
+        Width="900" Height="750"
+        Background="#F5F5F5">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="30">
+
+            <!-- En-tête -->
+            <TextBlock Text="Attached Properties dans WPF"
+                      FontSize="28" FontWeight="Bold"
+                      Foreground="#2C3E50"
+                      Margin="0,0,0,10"/>
+
+            <TextBlock Text="Les Attached Properties permettent d'ajouter des comportements à n'importe quel contrôle"
+                      FontSize="14" Foreground="Gray"
+                      Margin="0,0,0,30"/>
+
+            <!-- Section 1 : PlaceholderHelper -->
+            <Border Background="White" CornerRadius="8" Padding="20" Margin="0,0,0,20">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.1" Color="Black"/>
+                </Border.Effect>
+
+                <StackPanel>
+                    <TextBlock Text="1️⃣ PlaceholderHelper" FontSize="20" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                    <TextBlock Text="Ajoute un texte d'aide (placeholder) aux TextBox"
+                              Foreground="Gray" Margin="0,0,0,20"/>
+
+                    <!-- Code XAML -->
+                    <Border Background="#F8F9FA" BorderBrush="#E0E0E0" BorderThickness="1"
+                           CornerRadius="4" Padding="15" Margin="0,0,0,15">
+                        <TextBlock FontFamily="Consolas" FontSize="12" TextWrapping="Wrap">
+                            <Run Text="&lt;TextBox local:PlaceholderHelper.Text=&quot;Entrez votre nom...&quot;/&gt;"/>
+                        </TextBlock>
+                    </Border>
+
+                    <!-- Exemples -->
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel>
+                            <TextBlock Text="Exemple 1 : Nom" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                            <TextBox local:PlaceholderHelper.Text="Entrez votre nom..."
+                                    Height="35" Padding="8"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2">
+                            <TextBlock Text="Exemple 2 : Email" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                            <TextBox local:PlaceholderHelper.Text="exemple@email.com"
+                                    local:PlaceholderHelper.Color="#2196F3"
+                                    Height="35" Padding="8"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <TextBlock Text="💡 Le placeholder disparaît automatiquement au focus"
+                              FontSize="12" Foreground="Gray" Margin="0,10,0,0"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Section 2 : BadgeHelper -->
+            <Border Background="White" CornerRadius="8" Padding="20" Margin="0,0,0,20">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.1" Color="Black"/>
+                </Border.Effect>
+
+                <StackPanel>
+                    <TextBlock Text="2️⃣ BadgeHelper" FontSize="20" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                    <TextBlock Text="Ajoute un badge de notification sur n'importe quel contrôle"
+                              Foreground="Gray" Margin="0,0,0,20"/>
+
+                    <!-- Code XAML -->
+                    <Border Background="#F8F9FA" BorderBrush="#E0E0E0" BorderThickness="1"
+                           CornerRadius="4" Padding="15" Margin="0,0,0,15">
+                        <TextBlock FontFamily="Consolas" FontSize="12" TextWrapping="Wrap">
+                            <Run Text="&lt;Button local:BadgeHelper.Badge=&quot;5&quot; Content=&quot;Messages&quot;/&gt;"/>
+                        </TextBlock>
+                    </Border>
+
+                    <!-- Exemples -->
+                    <WrapPanel>
+                        <Button local:BadgeHelper.Badge="3"
+                               Content="📬 Messages"
+                               Padding="15,10"
+                               Margin="0,0,10,10"
+                               Background="#2196F3"
+                               Foreground="White"
+                               BorderThickness="0"/>
+
+                        <Button local:BadgeHelper.Badge="12"
+                               Content="🔔 Notifications"
+                               Padding="15,10"
+                               Margin="0,0,10,10"
+                               Background="#FF9800"
+                               Foreground="White"
+                               BorderThickness="0"/>
+
+                        <Button local:BadgeHelper.Badge="99+"
+                               Content="📧 Inbox"
+                               Padding="15,10"
+                               Margin="0,0,10,10"
+                               Background="#4CAF50"
+                               Foreground="White"
+                               BorderThickness="0"/>
+
+                        <Button Content="❌ Sans badge"
+                               Padding="15,10"
+                               Margin="0,0,10,10"
+                               Background="#9E9E9E"
+                               Foreground="White"
+                               BorderThickness="0"/>
+                    </WrapPanel>
+
+                    <TextBlock Text="💡 Le badge s'affiche automatiquement en haut à droite"
+                              FontSize="12" Foreground="Gray" Margin="0,10,0,0"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Section 3 : CornerRadiusHelper -->
+            <Border Background="White" CornerRadius="8" Padding="20" Margin="0,0,0,20">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.1" Color="Black"/>
+                </Border.Effect>
+
+                <StackPanel>
+                    <TextBlock Text="3️⃣ CornerRadiusHelper" FontSize="20" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                    <TextBlock Text="Applique facilement des coins arrondis à n'importe quel contrôle"
+                              Foreground="Gray" Margin="0,0,0,20"/>
+
+                    <!-- Code XAML -->
+                    <Border Background="#F8F9FA" BorderBrush="#E0E0E0" BorderThickness="1"
+                           CornerRadius="4" Padding="15" Margin="0,0,0,15">
+                        <TextBlock FontFamily="Consolas" FontSize="12" TextWrapping="Wrap">
+                            <Run Text="&lt;Border local:CornerRadiusHelper.Radius=&quot;15&quot; Background=&quot;Blue&quot;/&gt;"/>
+                        </TextBlock>
+                    </Border>
+
+                    <!-- Exemples -->
+                    <WrapPanel>
+                        <Border local:CornerRadiusHelper.Radius="0"
+                               Width="100" Height="60"
+                               Background="#E3F2FD"
+                               BorderBrush="#2196F3"
+                               BorderThickness="2"
+                               Margin="0,0,10,10">
+                            <TextBlock Text="Radius=0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+
+                        <Border local:CornerRadiusHelper.Radius="8"
+                               Width="100" Height="60"
+                               Background="#E8F5E9"
+                               BorderBrush="#4CAF50"
+                               BorderThickness="2"
+                               Margin="0,0,10,10">
+                            <TextBlock Text="Radius=8" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+
+                        <Border local:CornerRadiusHelper.Radius="15"
+                               Width="100" Height="60"
+                               Background="#FFF3E0"
+                               BorderBrush="#FF9800"
+                               BorderThickness="2"
+                               Margin="0,0,10,10">
+                            <TextBlock Text="Radius=15" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+
+                        <Border local:CornerRadiusHelper.Radius="30"
+                               Width="100" Height="60"
+                               Background="#FCE4EC"
+                               BorderBrush="#E91E63"
+                               BorderThickness="2"
+                               Margin="0,0,10,10">
+                            <TextBlock Text="Radius=30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </WrapPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Section Explication -->
+            <Border Background="White" CornerRadius="8" Padding="20">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.1" Color="Black"/>
+                </Border.Effect>
+
+                <StackPanel>
+                    <TextBlock Text="📚 Comprendre les Attached Properties" FontSize="20" FontWeight="SemiBold" Margin="0,0,0,15"/>
+
+                    <TextBlock TextWrapping="Wrap" Margin="0,0,0,10">
+                        <Run Text="Les " FontWeight="Bold"/>
+                        <Run Text="Attached Properties" FontWeight="Bold" Foreground="#2196F3"/>
+                        <Run Text=" sont des propriétés qu'on peut 'attacher' à n'importe quel élément WPF, même s'il ne les définit pas nativement."/>
+                    </TextBlock>
+
+                    <TextBlock Text="🔹 Différence avec Dependency Property :" FontWeight="SemiBold" Margin="0,10,0,5"/>
+                    <StackPanel Margin="15,0,0,0">
+                        <TextBlock TextWrapping="Wrap" Margin="0,0,0,5">
+                            <Run Text="• Dependency Property : " FontWeight="SemiBold"/>
+                            <Run Text="Propriété définie SUR la classe (ex: Button.Content)"/>
+                        </TextBlock>
+                        <TextBlock TextWrapping="Wrap">
+                            <Run Text="• Attached Property : " FontWeight="SemiBold"/>
+                            <Run Text="Propriété qui peut s'attacher À N'IMPORTE QUEL élément (ex: Grid.Row, Canvas.Left)"/>
+                        </TextBlock>
+                    </StackPanel>
+
+                    <TextBlock Text="🔹 Exemples WPF natifs :" FontWeight="SemiBold" Margin="0,10,0,5"/>
+                    <Border Background="#F8F9FA" Padding="10" CornerRadius="4" Margin="15,5,0,0">
+                        <StackPanel>
+                            <TextBlock FontFamily="Consolas" FontSize="12" Text="Grid.Row=&quot;0&quot;          ← Attached Property de Grid"/>
+                            <TextBlock FontFamily="Consolas" FontSize="12" Text="Canvas.Left=&quot;10&quot;        ← Attached Property de Canvas" Margin="0,3,0,0"/>
+                            <TextBlock FontFamily="Consolas" FontSize="12" Text="DockPanel.Dock=&quot;Top&quot;    ← Attached Property de DockPanel" Margin="0,3,0,0"/>
+                        </StackPanel>
+                    </Border>
+
+                    <TextBlock Text="🔹 Syntaxe de déclaration :" FontWeight="SemiBold" Margin="0,15,0,5"/>
+                    <Border Background="#F8F9FA" BorderBrush="#E0E0E0" BorderThickness="1"
+                           CornerRadius="4" Padding="15" Margin="15,5,0,0">
+                        <TextBlock FontFamily="Consolas" FontSize="11" TextWrapping="Wrap" xml:space="preserve">public static readonly DependencyProperty MonPropProperty =
+    DependencyProperty.RegisterAttached(
+        "MonProp",                          // Nom
+        typeof(string),                      // Type
+        typeof(MaClasse),                    // Classe propriétaire
+        new PropertyMetadata(OnChanged));    // Callback
+
+public static string GetMonProp(DependencyObject obj)
+    =&gt; (string)obj.GetValue(MonPropProperty);
+
+public static void SetMonProp(DependencyObject obj, string value)
+    =&gt; obj.SetValue(MonPropProperty, value);</TextBlock>
+                    </Border>
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
+</Window>

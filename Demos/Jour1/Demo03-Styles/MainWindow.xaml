@@ -1,0 +1,233 @@
+<Window x:Class="StylesDemo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Démo - Styles et ResourceDictionary"
+        Height="700" Width="900"
+        Background="{StaticResource SurfaceBrush}">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="30">
+
+            <!-- En-tête -->
+            <TextBlock Text="Système de Styles WPF"
+                      Style="{StaticResource H1Style}"/>
+            <TextBlock Text="Démonstration des styles, triggers et ResourceDictionary"
+                      Style="{StaticResource MutedStyle}"
+                      Margin="0,0,0,30"/>
+
+            <!-- Section Boutons -->
+            <Border Style="{StaticResource CardStyle}" Margin="0,0,0,20">
+                <StackPanel>
+                    <TextBlock Text="Boutons" Style="{StaticResource H2Style}"/>
+
+                    <WrapPanel Margin="0,10,0,0">
+                        <Button Content="Primary" Style="{StaticResource PrimaryButtonStyle}" Margin="0,0,10,10"/>
+                        <Button Content="Secondary" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,10,10"/>
+                        <Button Content="Success" Style="{StaticResource SuccessButtonStyle}" Margin="0,0,10,10"/>
+                        <Button Content="Warning" Style="{StaticResource WarningButtonStyle}" Margin="0,0,10,10"/>
+                        <Button Content="Danger" Style="{StaticResource DangerButtonStyle}" Margin="0,0,10,10"/>
+                    </WrapPanel>
+
+                    <WrapPanel Margin="0,10,0,0">
+                        <Button Content="Outline" Style="{StaticResource OutlineButtonStyle}" Margin="0,0,10,10"/>
+                        <Button Content="Animé (hover)" Style="{StaticResource AnimatedButtonStyle}" Margin="0,0,10,10"/>
+                        <Button Content="Désactivé" Style="{StaticResource PrimaryButtonStyle}" IsEnabled="False" Margin="0,0,10,10"/>
+                    </WrapPanel>
+
+                    <TextBlock Text="Les styles utilisent l'héritage avec BasedOn pour éviter la duplication"
+                              Style="{StaticResource BodySmallStyle}"
+                              Foreground="{StaticResource TextMutedBrush}"
+                              Margin="0,10,0,0"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Section Typographie -->
+            <Border Style="{StaticResource CardStyle}" Margin="0,0,0,20">
+                <StackPanel>
+                    <TextBlock Text="Typographie" Style="{StaticResource H2Style}"/>
+
+                    <TextBlock Text="Titre H1" Style="{StaticResource H1Style}"/>
+                    <TextBlock Text="Titre H2" Style="{StaticResource H2Style}"/>
+                    <TextBlock Text="Titre H3" Style="{StaticResource H3Style}"/>
+                    <TextBlock Text="Corps de texte normal avec Style=BodyStyle. Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                              Style="{StaticResource BodyStyle}"/>
+                    <TextBlock Text="Texte atténué avec Style=MutedStyle"
+                              Style="{StaticResource MutedStyle}"
+                              Margin="0,8,0,0"/>
+
+                    <!-- Badge -->
+                    <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
+                        <Border Style="{StaticResource BadgeStyle}" Margin="0,0,8,0">
+                            <TextBlock Text="Badge" Style="{StaticResource BadgeTextStyle}"/>
+                        </Border>
+                        <Border Style="{StaticResource BadgeStyle}" Background="{StaticResource SuccessBrush}">
+                            <TextBlock Text="Nouveau" Style="{StaticResource BadgeTextStyle}"/>
+                        </Border>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Section Formulaire -->
+            <Border Style="{StaticResource CardStyle}" Margin="0,0,0,20">
+                <StackPanel>
+                    <TextBlock Text="Champs de formulaire" Style="{StaticResource H2Style}"/>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Prénom -->
+                        <StackPanel Grid.Row="0">
+                            <TextBlock Text="PRÉNOM" Style="{StaticResource LabelStyle}"/>
+                            <TextBox Style="{StaticResource ModernTextBoxStyle}"
+                                    Text="Jean"/>
+                        </StackPanel>
+
+                        <!-- Nom -->
+                        <StackPanel Grid.Row="0" Grid.Column="2">
+                            <TextBlock Text="NOM" Style="{StaticResource LabelStyle}"/>
+                            <TextBox Style="{StaticResource ModernTextBoxStyle}"
+                                    Text="Dupont"/>
+                        </StackPanel>
+
+                        <!-- Email -->
+                        <StackPanel Grid.Row="1" Grid.ColumnSpan="3" Margin="0,16,0,0">
+                            <TextBlock Text="EMAIL" Style="{StaticResource LabelStyle}"/>
+                            <TextBox Style="{StaticResource ModernTextBoxStyle}"
+                                    Text="jean.dupont@email.com"/>
+                        </StackPanel>
+
+                        <!-- Boutons -->
+                        <StackPanel Grid.Row="2" Grid.ColumnSpan="3"
+                                   Orientation="Horizontal"
+                                   HorizontalAlignment="Right"
+                                   Margin="0,20,0,0">
+                            <Button Content="Annuler" Style="{StaticResource OutlineButtonStyle}" Margin="0,0,10,0"/>
+                            <Button Content="Enregistrer" Style="{StaticResource PrimaryButtonStyle}"/>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Section Triggers -->
+            <Border Style="{StaticResource CardStyle}" Margin="0,0,0,20">
+                <StackPanel>
+                    <TextBlock Text="Triggers et États" Style="{StaticResource H2Style}"/>
+
+                    <TextBlock Style="{StaticResource BodyStyle}" Margin="0,0,0,16">
+                        Les Triggers permettent de changer l'apparence selon l'état du contrôle.
+                        Survolez les éléments ci-dessous pour voir les effets.
+                    </TextBlock>
+
+                    <!-- Démonstration des différents types de Triggers -->
+                    <StackPanel Orientation="Horizontal">
+
+                        <!-- Property Trigger -->
+                        <Border Width="120" Height="80" Margin="0,0,10,0"
+                               Background="{StaticResource SecondaryBrush}"
+                               CornerRadius="8">
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Setter Property="Opacity" Value="1"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="{StaticResource PrimaryBrush}"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                            <TextBlock Text="Property Trigger"
+                                      Foreground="White"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"
+                                      FontWeight="SemiBold"/>
+                        </Border>
+
+                        <!-- Data Trigger avec CheckBox -->
+                        <StackPanel Margin="0,0,10,0">
+                            <CheckBox x:Name="ToggleCheckBox" Content="Activer" Margin="0,0,0,8"/>
+                            <Border Width="120" Height="50" CornerRadius="8">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Background" Value="{StaticResource BorderBrush}"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsChecked, ElementName=ToggleCheckBox}" Value="True">
+                                                <Setter Property="Background" Value="{StaticResource SuccessBrush}"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                                <TextBlock Text="Data Trigger"
+                                          Foreground="White"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          FontWeight="SemiBold"/>
+                            </Border>
+                        </StackPanel>
+
+                        <!-- Multi Trigger -->
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                <CheckBox x:Name="Check1" Content="A" Margin="0,0,8,0"/>
+                                <CheckBox x:Name="Check2" Content="B"/>
+                            </StackPanel>
+                            <Border Width="120" Height="50" CornerRadius="8">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Background" Value="{StaticResource BorderBrush}"/>
+                                        <Style.Triggers>
+                                            <MultiDataTrigger>
+                                                <MultiDataTrigger.Conditions>
+                                                    <Condition Binding="{Binding IsChecked, ElementName=Check1}" Value="True"/>
+                                                    <Condition Binding="{Binding IsChecked, ElementName=Check2}" Value="True"/>
+                                                </MultiDataTrigger.Conditions>
+                                                <Setter Property="Background" Value="{StaticResource AccentBrush}"/>
+                                            </MultiDataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                                <TextBlock Text="Multi Trigger&#x0a;(A ET B)"
+                                          Foreground="White"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          FontWeight="SemiBold"
+                                          TextAlignment="Center"/>
+                            </Border>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Section ResourceDictionary -->
+            <Border Style="{StaticResource CardStyle}">
+                <StackPanel>
+                    <TextBlock Text="Organisation des ResourceDictionary" Style="{StaticResource H2Style}"/>
+
+                    <TextBlock Style="{StaticResource BodyStyle}">
+                        Les ressources sont organisées en fichiers séparés :
+                    </TextBlock>
+
+                    <StackPanel Margin="16,12,0,0">
+                        <TextBlock Text="• Resources/Colors.xaml - Couleurs et Brushes" Style="{StaticResource BodyStyle}"/>
+                        <TextBlock Text="• Resources/ButtonStyles.xaml - Styles de boutons" Style="{StaticResource BodyStyle}"/>
+                        <TextBlock Text="• Resources/TextStyles.xaml - Typographie et formulaires" Style="{StaticResource BodyStyle}"/>
+                    </StackPanel>
+
+                    <TextBlock Style="{StaticResource BodyStyle}" Margin="0,12,0,0">
+                        Ils sont fusionnés dans App.xaml via MergedDictionaries pour être
+                        disponibles dans toute l'application.
+                    </TextBlock>
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
+</Window>

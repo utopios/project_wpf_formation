@@ -1,0 +1,78 @@
+<Window x:Class="Demo01_ArbreVisuel.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Demo - Arbre Visuel vs Arbre Logique"
+        Width="900" Height="600">
+
+    <Grid Margin="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Titre -->
+        <TextBlock Grid.ColumnSpan="3"
+                   Text="Comparaison Arbre Logique vs Arbre Visuel"
+                   FontSize="24" FontWeight="Bold"
+                   Margin="0,0,0,20"/>
+
+        <!-- Contrôle source à analyser -->
+        <GroupBox Grid.Row="1" Grid.ColumnSpan="3"
+                  Header="Contrôle à analyser"
+                  Padding="10" Margin="0,0,0,20">
+            <StackPanel x:Name="SourcePanel">
+                <Button x:Name="SampleButton" Content="Un bouton avec du contenu"
+                        Padding="20,10" Margin="5"/>
+                <TextBox x:Name="SampleTextBox" Text="Une zone de texte"
+                         Padding="10" Margin="5"/>
+                <CheckBox x:Name="SampleCheckBox" Content="Une case à cocher"
+                          Margin="5"/>
+                <ComboBox x:Name="SampleComboBox" Margin="5">
+                    <ComboBoxItem Content="Option 1"/>
+                    <ComboBoxItem Content="Option 2"/>
+                    <ComboBoxItem Content="Option 3"/>
+                </ComboBox>
+            </StackPanel>
+        </GroupBox>
+
+        <!-- Arbre Logique -->
+        <GroupBox Grid.Row="2" Header="Arbre Logique" Padding="10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Button Content="Afficher l'arbre logique"
+                        Click="ShowLogicalTree_Click"
+                        Padding="10,5" Margin="0,0,0,10"/>
+
+                <TreeView x:Name="LogicalTreeView" Grid.Row="1"
+                          BorderThickness="1" BorderBrush="#CCC"/>
+            </Grid>
+        </GroupBox>
+
+        <!-- Arbre Visuel -->
+        <GroupBox Grid.Row="2" Grid.Column="2" Header="Arbre Visuel" Padding="10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Button Content="Afficher l'arbre visuel"
+                        Click="ShowVisualTree_Click"
+                        Padding="10,5" Margin="0,0,0,10"/>
+
+                <TreeView x:Name="VisualTreeView" Grid.Row="1"
+                          BorderThickness="1" BorderBrush="#CCC"/>
+            </Grid>
+        </GroupBox>
+    </Grid>
+</Window>
