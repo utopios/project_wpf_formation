@@ -15,7 +15,7 @@ public partial class ProductEditView : Window
         var viewModel = new ProductEditFormViewModel(product);
         //viewModel.CloseRequested += result => DialogResult = result;
         viewModel.CloseRequested += Close;
-        viewModel.CloseRequested += Close;
+        //viewModel.CloseRequested += Close;
         DataContext = viewModel;
     }
 
