@@ -2,6 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="clr-namespace:ToolkitDemo.ViewModels"
+         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         Title="Démo - CommunityToolkit.Mvvm"
         Height="700" Width="900"
         Background="#F5F5F5">
@@ -60,16 +61,32 @@
                 <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
                     <Button Content="10 ans" Padding="10,5"
                            Command="{Binding SetAgeCommand}"
-                           CommandParameter="10" Margin="0,0,5,0"/>
+                         Margin="0,0,5,0">
+                        <Button.CommandParameter>
+                            <sys:Int32>10</sys:Int32>
+                        </Button.CommandParameter>
+                    </Button>
                     <Button Content="25 ans" Padding="10,5"
                            Command="{Binding SetAgeCommand}"
-                           CommandParameter="25" Margin="0,0,5,0"/>
+                          Margin="0,0,5,0">
+                        <Button.CommandParameter>
+                            <sys:Int32>25</sys:Int32>
+                        </Button.CommandParameter>
+                    </Button>
                     <Button Content="50 ans" Padding="10,5"
                            Command="{Binding SetAgeCommand}"
-                           CommandParameter="50" Margin="0,0,5,0"/>
+                           Margin="0,0,5,0">
+                        <Button.CommandParameter>
+                            <sys:Int32>50</sys:Int32>
+                        </Button.CommandParameter>
+                    </Button>
                     <Button Content="70 ans" Padding="10,5"
                            Command="{Binding SetAgeCommand}"
-                           CommandParameter="70"/>
+                           >
+                        <Button.CommandParameter>
+                            <sys:Int32>70</sys:Int32>
+                        </Button.CommandParameter>
+                    </Button>
                 </StackPanel>
 
                 <!-- Email -->
@@ -95,12 +112,12 @@
                 </StackPanel>
 
                 <!-- Indicateur async -->
-                <StackPanel Orientation="Horizontal" Margin="0,10,0,0"
+                <!--<StackPanel Orientation="Horizontal" Margin="0,10,0,0"
                            Visibility="{Binding LoadDataCommand.IsRunning,
                                         Converter={StaticResource BoolToVis}}">
                     <TextBlock Text="⏳" Margin="0,0,5,0"/>
                     <TextBlock Text="Chargement en cours..." Foreground="#F39C12"/>
-                </StackPanel>
+                </StackPanel>-->
             </StackPanel>
         </Border>
 
@@ -164,8 +181,7 @@
 
                     <!-- Message -->
                     <Border Background="#FFF3E0" CornerRadius="4"
-                           Padding="10" Margin="0,15,0,0"
-                           Visibility="{Binding Message, Converter={StaticResource StringToVis}}">
+                           Padding="10" Margin="0,15,0,0">
                         <TextBlock Text="{Binding Message}"
                                   Foreground="#E65100" TextWrapping="Wrap"/>
                     </Border>
