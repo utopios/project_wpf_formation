@@ -1,0 +1,7 @@
+<Application x:Class="DIDemo.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- StartupUri supprimé - on crée MainWindow manuellement via DI -->
+    <Application.Resources>
+    </Application.Resources>
+</Application>
