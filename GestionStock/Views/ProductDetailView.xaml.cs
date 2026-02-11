@@ -7,7 +7,7 @@ namespace GestionStock.Views;
 /// Fenêtre de détails d'un produit (MVVM avec CommunityToolkit).
 /// Le code-behind ne fait que créer le ViewModel et gérer la fermeture.
 /// </summary>
-public partial class ProductDetailView : Window, IDisposable
+public partial class ProductDetailView : Window
 {
     public ProductDetailView(Product product)
     {
@@ -15,6 +15,12 @@ public partial class ProductDetailView : Window, IDisposable
         var viewModel = new ProductInfoViewModel(product);
         viewModel.CloseRequested += Close;
         DataContext = viewModel;
+        Closed += OnClosed;
+    }
+
+    private void OnClosed(object? sender, EventArgs e)
+    {
+        ((ProductInfoViewModel)DataContext).CloseRequested -= Close;
     }
 
     private void Close(bool result)
@@ -27,12 +33,15 @@ public partial class ProductDetailView : Window, IDisposable
     //    ((ProductInfoViewModel)DataContext).CloseRequested -= Close;
     //}
 
+    
+
+
     ~ProductDetailView()
     {
-        Dispatcher.Invoke(() =>
-        {
-            ((ProductInfoViewModel)DataContext).CloseRequested -= Close;
-        });
+        //Dispatcher.Invoke(() =>
+        //{
+        //    ((ProductInfoViewModel)DataContext).CloseRequested -= Close;
+        //});
        
     }
 }
