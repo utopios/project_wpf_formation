@@ -118,19 +118,36 @@ public partial class CategoryListViewModel : NavigableViewModelBase
 public partial class SupplierListViewModel : NavigableViewModelBase
 {
     private readonly ISupplierRepository _supplierRepository;
+    private readonly INavigationService _navigationService;
     private readonly IDialogService _dialogService;
 
     [ObservableProperty]
     private ObservableCollection<Supplier> _suppliers = [];
 
     [ObservableProperty]
+    private ObservableCollection<Supplier> _allSuppliers = [];
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(HasSelectedSupplier))]
+    [NotifyCanExecuteChangedFor(nameof(EditSupplierCommand))]
+    [NotifyCanExecuteChangedFor(nameof(DeleteSupplierCommand))]
     private Supplier? _selectedSupplier;
+
+    [ObservableProperty]
+    private string _searchText = string.Empty;
+
+    [ObservableProperty]
+    private bool _showInactiveOnly;
+
+    public bool HasSelectedSupplier => SelectedSupplier != null;
 
     public SupplierListViewModel(
         ISupplierRepository supplierRepository,
+        INavigationService navigationService,
         IDialogService dialogService)
     {
         _supplierRepository = supplierRepository;
+        _navigationService = navigationService;
         _dialogService = dialogService;
     }
 
@@ -145,11 +162,97 @@ public partial class SupplierListViewModel : NavigableViewModelBase
         await ExecuteAsync(async () =>
         {
             var suppliers = await _supplierRepository.GetAllAsync();
-            Suppliers = new ObservableCollection<Supplier>(suppliers);
+            AllSuppliers = new ObservableCollection<Supplier>(suppliers);
+            ApplyFilters();
         });
     }
 
-    // TODO: Implémenter Add, Edit, Delete similaires à CategoryListViewModel
+    partial void OnSearchTextChanged(string value)
+    {
+        ApplyFilters();
+    }
+
+    partial void OnShowInactiveOnlyChanged(bool value)
+    {
+        ApplyFilters();
+    }
+
+    private void ApplyFilters()
+    {
+        var filtered = AllSuppliers.AsEnumerable();
+
+        if (!string.IsNullOrWhiteSpace(SearchText))
+        {
+            var term = SearchText.ToLower();
+            filtered = filtered.Where(s =>
+                s.Name.ToLower().Contains(term) ||
+                (s.ContactName != null && s.ContactName.ToLower().Contains(term)) ||
+                (s.Email != null && s.Email.ToLower().Contains(term)) ||
+                (s.Phone != null && s.Phone.ToLower().Contains(term)));
+        }
+
+        if (ShowInactiveOnly)
+        {
+            filtered = filtered.Where(s => !s.IsActive);
+        }
+
+        Suppliers = new ObservableCollection<Supplier>(filtered);
+    }
+
+    [RelayCommand]
+    private void AddSupplier()
+    {
+        _navigationService.NavigateTo<SupplierEditViewModel>();
+    }
+
+    [RelayCommand(CanExecute = nameof(HasSelectedSupplier))]
+    private void EditSupplier()
+    {
+        if (SelectedSupplier != null)
+        {
+            _navigationService.NavigateTo<SupplierEditViewModel, int>(SelectedSupplier.Id);
+        }
+    }
+
+    [RelayCommand(CanExecute = nameof(HasSelectedSupplier))]
+    private async Task DeleteSupplierAsync()
+    {
+        if (SelectedSupplier == null) return;
+
+        if (SelectedSupplier.Products.Any())
+        {
+            await _dialogService.AlertAsync("Erreur",
+                $"Impossible de supprimer ce fournisseur car il est associé à {SelectedSupplier.Products.Count} produit(s).");
+            return;
+        }
+
+        var confirmed = await _dialogService.ConfirmAsync("Confirmation",
+            $"Voulez-vous vraiment supprimer le fournisseur '{SelectedSupplier.Name}' ?");
+
+        if (confirmed)
+        {
+            await ExecuteAsync(async () =>
+            {
+                await _supplierRepository.DeleteAsync(SelectedSupplier.Id);
+                Suppliers.Remove(SelectedSupplier);
+                SelectedSupplier = null;
+                _dialogService.ShowNotification("Fournisseur supprimé avec succès", NotificationType.Success);
+            });
+        }
+    }
+
+    [RelayCommand]
+    private void ClearFilters()
+    {
+        SearchText = string.Empty;
+        ShowInactiveOnly = false;
+    }
+
+    [RelayCommand]
+    private void Refresh()
+    {
+        LoadSuppliersCommand.Execute(null);
+    }
 }
 
 /// <summary>

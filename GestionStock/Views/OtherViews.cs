@@ -11,11 +11,7 @@ public partial class CategoryListView : UserControl
     private void InitializeComponent() { }
 }
 
-public partial class SupplierListView : UserControl
-{
-    public SupplierListView() { InitializeComponent(); }
-    private void InitializeComponent() { }
-}
+// SupplierListView est désormais dans SupplierListView.xaml / SupplierListView.xaml.cs
 
 public partial class StockMovementView : UserControl
 {

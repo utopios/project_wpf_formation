@@ -38,6 +38,10 @@
                 <views:SupplierListView/>
             </DataTemplate>
 
+            <DataTemplate DataType="{x:Type vm:SupplierEditViewModel}">
+                <views:SupplierEditView/>
+            </DataTemplate>
+
             <DataTemplate DataType="{x:Type vm:StockMovementViewModel}">
                 <views:StockMovementView/>
             </DataTemplate>

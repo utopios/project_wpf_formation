@@ -45,6 +45,7 @@ public partial class App : Application
         services.AddTransient<ProductEditViewModel>();
         services.AddTransient<CategoryListViewModel>();
         services.AddTransient<SupplierListViewModel>();
+        services.AddTransient<SupplierEditViewModel>();
         services.AddTransient<StockMovementViewModel>();
         services.AddTransient<SettingsViewModel>();
 
